@@ -27,6 +27,13 @@ document.getElementById('productForm').addEventListener('submit', function(e) {
 function addProduct(nombre, categoria, precio, stock) {
     if (nombre && categoria && precio > 0 && stock >= 0) {
         const products = getProducts();
+        const duplicate = products.some(product => 
+            product.nombre === nombre && product.categoria === categoria
+        );
+        if (duplicate) {
+            Swal.fire('Error', 'El producto ya existe en esta categoría.', 'error');
+            return;
+        }
         const newProduct = { nombre, categoria, precio, stock };
         products.push(newProduct);
         saveProducts(products);
